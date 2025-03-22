@@ -99,4 +99,9 @@ class PegawaiResource extends Resource
             'edit' => Pages\EditPegawai::route('/{record}/edit'),
         ];
     }
+
+    public static function getPluralLabel(): string
+    {
+        return 'Pegawai';
+    }
 }
