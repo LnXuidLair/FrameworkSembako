@@ -120,4 +120,9 @@ class BarangResource extends Resource
             'edit' => Pages\EditBarang::route('/{record}/edit'),
         ];
     }
+
+    public static function getPluralLabel(): string
+    {
+        return 'Barang';
+    }
 }
