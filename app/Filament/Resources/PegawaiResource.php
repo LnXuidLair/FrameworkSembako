@@ -17,6 +17,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Radio;
 
 
 class PegawaiResource extends Resource
@@ -44,10 +45,13 @@ class PegawaiResource extends Resource
                     ->placeholder('Masukkan nomor telephone') // Placeholder untuk membantu pengguna
                     ->minValue(0)
                 ,
-                TextInput::make('jenis_kelamin')
-                    ->required()
-                    ->placeholder('Masukkan alamat lengkap') // Placeholder untuk membantu pengguna
-                    ->minValue(0),
+                Radio::make('jenis_kelamin')
+                ->label('Jenis Kelamin')
+                ->required()
+                ->options([
+                    'L' => 'Laki-laki',
+                    'P' => 'Perempuan',
+                ])
             ]);
     }
 
@@ -65,8 +69,9 @@ class PegawaiResource extends Resource
                 ->searchable()
                 ->sortable(),
             TextColumn::make('jenis_kelamin')
+                ->label('Jenis Kelamin')
                 ->searchable()
-                ->sortable(),
+                ->sortable(),            
 
             ])
             ->filters([
