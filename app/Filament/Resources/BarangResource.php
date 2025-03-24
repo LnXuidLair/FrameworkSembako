@@ -41,6 +41,16 @@ class BarangResource extends Resource
                     ->required()
                     ->placeholder('Masukkan nama barang') // Placeholder untuk membantu pengguna
                 ,
+                Select::make('satuan_barang')
+                ->label('Satuan Barang')
+                ->options([
+                    'pcs' => 'Pcs',
+                    'kg' => 'Kilogram',
+                    'ltr' => 'Liter',
+                ])
+                ->required()
+                ->placeholder('Pilih satuan barang') // Placeholder untuk membantu pengguna
+                ,
                 TextInput::make('harga_barang')
                     ->required()
                     ->minValue(0) // Nilai minimal 0 (opsional jika tidak ingin ada harga negatif)
