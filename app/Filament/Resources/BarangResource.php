@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+use Filament\Tables\Components\SelectColumn;
 use Filament\Forms\Components\TextInput;
 // use Filament\Forms\Components\InputMask;
 use Filament\Forms\Components\Select;
@@ -94,7 +95,9 @@ class BarangResource extends Resource
                 ->label('Harga Barang')
                 ->formatStateUsing(fn (string|int|null $state): string => rupiah($state))
                 ->extraAttributes(['class' => 'text-right']) // Tambahkan kelas CSS untuk rata kanan
-                ->sortable()
+                ->sortable(),
+            TextColumn::make('satuan_barang')   
+                ->label('Satuan Barang')
             ,
             ImageColumn::make('foto'),
             TextColumn::make('stok'),
