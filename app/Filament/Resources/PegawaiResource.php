@@ -45,16 +45,13 @@ class PegawaiResource extends Resource
                     ->minValue(0)
                 ,
                 Radio::make('jenis_kelamin')
-
                 ->label('Jenis Kelamin')
-                ->required()
                 ->options([
-                    'L' => 'Laki-laki',
-                    'P' => 'Perempuan',
+                    'Laki-laki'=>'Laki-laki',
+                    'Perempuan'=>'Perempuan',
                 ])
-                    ->required()
-                    ->placeholder('Masukkan alamat lengkap') // Placeholder untuk membantu pengguna
-                    ->minValue(0),
+                ->required()
+                ,
             ]);
     }
 
