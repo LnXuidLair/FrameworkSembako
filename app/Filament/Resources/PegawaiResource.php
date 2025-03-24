@@ -17,13 +17,13 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
-
+use Filament\Forms\Components\Radio;
 
 class PegawaiResource extends Resource
 {
     protected static ?string $model = Pegawai::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
     {
@@ -44,7 +44,7 @@ class PegawaiResource extends Resource
                     ->placeholder('Masukkan nomor telephone') // Placeholder untuk membantu pengguna
                     ->minValue(0)
                 ,
-                TextInput::make('jenis_kelamin')
+                Radio::make('jenis_kelamin')
                     ->required()
                     ->placeholder('Masukkan alamat lengkap') // Placeholder untuk membantu pengguna
                     ->minValue(0),
