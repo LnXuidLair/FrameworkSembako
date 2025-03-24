@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode_barang');
             $table->string('nama_barang');
+            $table->string('satuan_barang');
             $table->integer('harga_barang');
             $table->string('foto');
             $table->integer('stok');

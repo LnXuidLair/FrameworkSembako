@@ -19,12 +19,11 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Radio;
 
-
 class PegawaiResource extends Resource
 {
     protected static ?string $model = Pegawai::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
     {
@@ -46,12 +45,16 @@ class PegawaiResource extends Resource
                     ->minValue(0)
                 ,
                 Radio::make('jenis_kelamin')
+
                 ->label('Jenis Kelamin')
                 ->required()
                 ->options([
                     'L' => 'Laki-laki',
                     'P' => 'Perempuan',
                 ])
+                    ->required()
+                    ->placeholder('Masukkan alamat lengkap') // Placeholder untuk membantu pengguna
+                    ->minValue(0),
             ]);
     }
 
