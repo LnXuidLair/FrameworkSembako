@@ -69,8 +69,9 @@ class PegawaiResource extends Resource
                 ->searchable()
                 ->sortable(),
             TextColumn::make('jenis_kelamin')
+                ->label('Jenis Kelamin')
                 ->searchable()
-                ->sortable(),
+                ->sortable(),            
 
             ])
             ->filters([
