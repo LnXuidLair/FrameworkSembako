@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\BarangResource\Pages;
+namespace App\Filament\Resources\PegawaiResource\Pages;
 
-use App\Filament\Resources\BarangResource;
+use App\Filament\Resources\PegawaiResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateBarang extends CreateRecord
+class CreatePegawai extends CreateRecord
 {
-    protected static string $resource = BarangResource::class;
+    protected static string $resource = PegawaiResource::class;
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index'); // Redirect ke halaman utama barang
