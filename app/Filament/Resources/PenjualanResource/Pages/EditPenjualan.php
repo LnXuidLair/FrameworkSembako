@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\CoaResource\Pages;
+namespace App\Filament\Resources\PenjualanResource\Pages;
 
-use App\Filament\Resources\CoaResource;
+use App\Filament\Resources\PenjualanResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditCoa extends EditRecord
+class EditPenjualan extends EditRecord
 {
-    protected static string $resource = CoaResource::class;
+    protected static string $resource = PenjualanResource::class;
 
     protected function getHeaderActions(): array
     {
