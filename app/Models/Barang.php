@@ -33,4 +33,13 @@ class Barang extends Model
         return $noakhir;
 
     }
+      public function barang()
+    {
+        return $this->belongsTo(Barang::class, 'id_barang');
+    }
+    // Relasi dengan tabel relasi many to many nya
+    public function pembelianBarang()
+    {
+        return $this->hasMany(PembelianBarang::class, 'id_vendor');
+    }
 }
