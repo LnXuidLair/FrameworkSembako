@@ -36,7 +36,7 @@ class BarangResource extends Resource
                     ->default(fn () => Barang::getKodeBarang()) // Ambil default dari method getKodeBarang
                     ->label('Kode Barang')
                     ->required()
-                   // ->readonly() // Membuat field menjadi read-only
+                    ->readonly()
                 ,
                 TextInput::make('nama_barang')
                     ->required()
@@ -61,6 +61,7 @@ class BarangResource extends Resource
                 ,
                 FileUpload::make('foto')
                     ->directory('foto')
+                    ->preserveFilenames()
                     ->required()
                 ,
                 TextInput::make('stok')

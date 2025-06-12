@@ -33,6 +33,12 @@ class Barang extends Model
         return $noakhir;
 
     }
+
+    public function penjualan()
+    {
+        return $this->hasMany(Penjualan::class, 'id_barang');
+    }
+
       public function barang()
     {
         return $this->belongsTo(Barang::class, 'id_barang');

@@ -12,6 +12,20 @@ class Penjualan extends Model
 
     protected $table = "penjualan";
     protected $guarded = [];
+    public $timestamps = false;
+    protected $fillable = ['no_transaksi', 'tgl_transaksi', 'total_harga', 'status'];
+    protected $casts = [
+        'tgl_transaksi' => 'datetime',
+    ];
+
+
+    /**
+     * Relasi ke tabel penjualan_detail.
+     */
+    public function penjualanDetail()
+    {
+        return $this->hasMany(PenjualanDetail::class, 'no_transaksi', 'no_transaksi');
+    }
 
     /**
      * Relasi ke tabel barang.
@@ -20,43 +34,37 @@ class Penjualan extends Model
     {
         return $this->belongsTo(Barang::class, 'id_barang');
     }
-
-    /**
-     * Ambil stok barang berdasarkan ID.
-     */
-    public static function getStock($id_barang)
-    {
-        return DB::table('barang')->where('id', $id_barang)->value('stok');
-    }
-
-    /**
-     * Ambil semua data barang.
-     */
-    public static function getBarang()
-    {
-        return DB::table('barang')->get();
-    }
-
-    /**
-     * Ambil data barang berdasarkan ID.
-     */
-    public static function getBarangId($id)
-    {
-        return DB::table('barang')->where('id', $id)->first();
-    }
-
+    
     /**
      * Buat dan ambil nomor transaksi berikutnya.
      */
-   public static function getNoTransaksi()
+    public static function getNoTransaksi()
     {
         $latest = DB::table('penjualan')
-            ->select(DB::raw("IFNULL(MAX(no_transaksi), 'FK-00000') AS no_transaksi"))
+            ->select(DB::raw("IFNULL(MAX(no_transaksi), 'FK-000') AS no_transaksi"))
             ->first();
 
-        $currentNumber = (int) substr($latest->no_transaksi, 3); // FK- = 3 chars
+        $currentNumber = (int) substr($latest->no_transaksi, 3);
         $nextNumber = $currentNumber + 1;
 
-        return 'FK-' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT); // FK-00001
+        return 'FK-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * Hitung total harga dari seluruh detail penjualan.
+     */
+    public function hitungTotalDariDetails(): int
+    {
+        return $this->PenjualanDetail->sum('total');
+    }
+    
+    /**
+     * Update otomatis total_harga dari penjualan_detail saat disimpan.
+     */
+    protected static function booted(): void
+    {
+        static::saving(function (Penjualan $penjualan) {
+            $penjualan->total_harga = $penjualan->hitungTotalDariDetails();
+        });
     }
 }

@@ -116,4 +116,8 @@ class VendorResource extends Resource
             'edit' => Pages\EditVendor::route('/{record}/edit'),
         ];
     }
+    public static function getPluralLabel(): string
+    {
+        return 'Vendor';
+    }
 }
