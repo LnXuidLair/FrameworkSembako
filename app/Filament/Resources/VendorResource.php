@@ -31,9 +31,10 @@ class VendorResource extends Resource
                 Grid::make(1) // Membuat hanya 1 kolom
                 ->schema([
                     TextInput::make('id_vendor')
-                        ->autocapitalize('WORDS')
-                        ->required()
-                        ->placeholder('Masukkan id vendor')
+                    ->default(fn () => Vendor::generateIdVendor()) // Ambil default dari method getKodeBarang
+                    ->label('Id Vendor')
+                    ->required()
+                    ->readonly() // Membuat field menjadi read-only
                     ,
                     TextInput::make('nama_vendor')
                         ->label('Nama Vendor')
@@ -53,8 +54,17 @@ class VendorResource extends Resource
                     TextInput::make('harga_barang')
                         ->label('Harga Barang')
                         ->required()
+                        ->live()
+                        ->afterStateUpdated(fn ($state, callable $set) =>
+                            $set('harga_barang', number_format((int) str_replace(['.', ','], '', $state), 0, ',', '.'))
+                        )
+                        ->dehydrateStateUsing(fn ($state) =>
+                            (int) str_replace(['.', ','], '', $state)
+                        )
+                        ->numeric()
                         ->placeholder('Masukkan harga barang')
-                    ,
+                        ,
+
                     TextInput::make('rating')
                         ->required()
                         ->placeholder('')
@@ -71,7 +81,9 @@ class VendorResource extends Resource
                 TextColumn::make('nama_vendor'),
                 TextColumn::make('alamat'), 
                 TextColumn::make('barang_vendor'), 
-                TextColumn::make('harga_barang'), 
+                TextColumn::make('harga_barang')
+                    ->label('Harga Barang')
+                    ->formatStateUsing(fn ($state) => 'Rp ' . number_format((int) $state, 0, ',', '.')),
                 TextColumn::make('rating'),
             ])
             ->filters([

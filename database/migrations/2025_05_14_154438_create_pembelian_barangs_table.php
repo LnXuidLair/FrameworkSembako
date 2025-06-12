@@ -12,10 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pembelian_barang', function (Blueprint $table) {
-            $table->id();
+           $table->id();
+            $table->foreignId('pembelian_id')->constrained('pembelian')->onDelete('cascade');
+            $table->foreignId('id_vendor')->constrained('vendor')->onDelete('cascade');
+            $table->integer('harga_beli');
+            $table->integer('jml'); // jumlah barang yang dibeli
+            $table->date('tgl');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

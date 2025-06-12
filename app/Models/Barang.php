@@ -38,4 +38,14 @@ class Barang extends Model
     {
         return $this->hasMany(Penjualan::class, 'id_barang');
     }
+
+      public function barang()
+    {
+        return $this->belongsTo(Barang::class, 'id_barang');
+    }
+    // Relasi dengan tabel relasi many to many nya
+    public function pembelianBarang()
+    {
+        return $this->hasMany(PembelianBarang::class, 'id_vendor');
+    }
 }

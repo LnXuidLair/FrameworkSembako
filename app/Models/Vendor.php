@@ -4,34 +4,61 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\DB; // Tambahkan ini
+use Illuminate\Support\Facades\DB;
 
 class Vendor extends Model
 {
     use HasFactory;
 
     protected $table = 'vendor';
+    protected $primaryKey = 'id_vendor';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $guarded = [];
 
-    public static function getIdVendor()
+    protected static function booted()
     {
-        // Ambil id_vendor terbesar (misalnya VE025)
-        $result = DB::table('vendor')->select(DB::raw("IFNULL(MAX(id_vendor), 'VE000') as id_vendor"))->first();
-        $lastId = $result->id_vendor;
+        static::creating(function ($vendor) {
+            $vendor->id_vendor = self::generateIdVendor();
+        });
+    }
 
-        // Ambil 3 digit terakhir dan tambahkan 1
-        $lastNumber = (int) substr($lastId, 2);
-        $newNumber = $lastNumber + 1;
+    public static function generateIdVendor()
+    {
+        $lastId = DB::table('vendor')
+            ->select(DB::raw("IFNULL(MAX(id_vendor), 'VE000') as id_vendor"))
+            ->value('id_vendor');
 
-        // Format hasil: VE001, VE002, dst
-        $newId = 'VE' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
+        $number = (int) substr($lastId, 2);
+        $newId = 'VE' . str_pad($number + 1, 3, '0', STR_PAD_LEFT);
 
         return $newId;
     }
 
     public function setHargaBarangAttribute($value)
     {
-        $this->attributes['harga_barang'] = str_replace(',', '', $value);
+        // Hapus semua titik dan koma agar bisa disimpan sebagai integer
+        $this->attributes['harga_barang'] = (int) str_replace(['.', ','], '', $value);
     }
-}
+        protected $casts = [
+        'items' => 'array',
+    ];
+    // relasi ke tabel pembelian
+    public function pembelian()
+    {
+        return $this->hasMany(Pembelian::class, 'id_vendor');
+    }
+     // relasi ke tabel vendor
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class, 'id_vendor');
+    }
 
+    // relasi ke tabel pembelian barang
+    public function pembelianBarang()
+    {
+        return $this->hasMany(PembelianBarang::class, 'pembelian_id');
+    }
+
+}
