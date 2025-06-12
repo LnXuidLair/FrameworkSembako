@@ -18,6 +18,16 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
+// tambahan untuk is admin
+use App\Http\Middleware\AdminOnly;
+
+// tambahan
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
+// tamnbahan
+// use App\Filament\Widgets\BarangChart;
+
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -27,6 +37,22 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->databaseNotifications()
+            // ->login(function (Request $request) {
+            //     $credentials = $request->only('email', 'password');
+            
+            //     if (Auth::guard('admin')->attempt($credentials)) {
+            //         $user = Auth::guard('admin')->user();
+            //         if ($user->user_group === 'admin') {
+            //             return redirect()->intended('/admin');
+            //         } else {
+            //             Auth::guard('admin')->logout();
+            //             return back()->withErrors(['email' => 'Anda tidak memiliki akses ke panel admin.']);
+            //         }
+            //     }
+            
+            //     return back()->withErrors(['email' => 'Email atau password salah.']);
+            // })
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -39,6 +65,9 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+                \App\Filament\Widgets\DashboardStatCards::class,
+                \App\Filament\Widgets\TotalPenjualanChart::class,
+                \App\Filament\Widgets\PenjualanPerBulanChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

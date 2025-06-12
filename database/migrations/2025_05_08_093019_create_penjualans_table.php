@@ -14,11 +14,8 @@ return new class extends Migration
         Schema::create('penjualan', function (Blueprint $table) {
             $table->increments('id');
             $table->string('no_transaksi',7);
-            $table->integer('id_barang');
-            $table->dateTime('tgl_transaksi', $precision = 0);
-            $table->integer('jml_barang');
-            $table->integer('harga_satuan');
             $table->integer('total_harga');
+            $table->dateTime('tgl_transaksi', $precision = 0);
             $table->string('status');
         });
     }
